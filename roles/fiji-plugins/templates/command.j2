@@ -1,0 +1,19 @@
+mkdir working_dir && mkdir output && 
+
+{% for item in input_params if item.data_type=="data" %}
+
+ln -s ${{item.name}} working_dir/${{item.name}}.element_identifier && 
+{% endfor %}
+
+{{imageJ_path}} --ij2 --headless --run "{{tool_name}}" "
+{% for item in input_params %}
+  {%if item.data_type=="data"%}
+    inputImageFile='working_dir/${{item.name}}.element_identifier',
+  {%else%}
+    {{item.name}}='${{item.name}}'
+  {% endif %}
+{% endfor %}" &&
+
+{% for item in output_params %}
+mv working_dir/{{item.default_value}} output
+{% endfor %}

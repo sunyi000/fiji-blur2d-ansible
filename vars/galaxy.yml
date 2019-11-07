@@ -1,0 +1,6 @@
+---
+
+galaxy_root: /srv/galaxy
+galaxy_tool_conf: /srv/galaxy/server/config/tool_conf.xml.sample
+
+imageJ_path: /opt/Fiji.app/ImageJ-linux64

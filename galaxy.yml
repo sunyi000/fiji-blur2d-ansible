@@ -1,0 +1,16 @@
+- hosts: '*'
+  tasks:
+  - include_vars: vars/galaxy.yml
+
+- hosts: galaxyservers
+  become: true
+  roles:
+    - fiji-plugins
+
+  handlers:
+   - name: restart galaxy supervisord
+     supervisorctl: name="galaxy" state=restarted
+     ignore_errors:  yes
+     become: yes
+     become_user: root
+

@@ -1,0 +1,21 @@
+---
+####
+# This file needs to be created from Fiji java plugin 
+#
+#####
+tool_id: blur2d
+tool_name: Blur2d
+version: 0.1.0
+
+input_params:
+  - {name: "inputImageFile", data_type: "data",format: "tiff", default_value: "input.tiff"}
+  - {name: radius,data_type: "text",format: txt, default_value: "1.0"}
+
+
+output_params:
+  - {name: "outputImageFile", data_type: "data",format: "tiff", default_value: "blur2d.tif"}
+
+description: this is a imagaj blur2d tool
+
+help: this is a help
+

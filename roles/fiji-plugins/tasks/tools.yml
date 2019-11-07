@@ -1,0 +1,23 @@
+---
+
+- name: make new tool folder
+  file:
+    path: "{{galaxy_root}}/server/tools/{{tool_id}}"
+    state: directory
+    mode: 0755
+    owner: galaxy
+    group: galaxy
+
+- name: deploy tool xml to new folder
+  command: "mv /tmp/tool_xml.xml {{galaxy_root}}/server/tools/{{tool_id}}/{{tool_id}}.xml"
+
+- name: edit tool_conf file 
+  blockinfile:
+    path: "{{galaxy_tool_conf}}"
+    marker: ''
+    insertbefore: '</toolbox>'
+    block: |
+        <section id="{{tool_id}}" name="{{tool_name}}">
+          <tool file="{{tool_id}}/{{tool_id}}.xml" />
+        </section>
+

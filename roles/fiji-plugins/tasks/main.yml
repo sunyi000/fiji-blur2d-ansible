@@ -1,0 +1,54 @@
+---
+
+- name: templating tool xml in /tmp
+  template:
+    src: tool_xml.xml.j2
+    dest: /tmp/tool_xml.xml
+    owner: root
+    group: root
+    mode: 0644
+  sudo: true
+
+- name: append input parameters
+  xml:
+    path: /tmp/tool_xml.xml
+    xpath: /tool/inputs
+    pretty_print: yes
+    add_children:
+      - param:
+          name: "{{item.name}}"
+          type: "{{item.data_type}}"
+          label: "{{item.name}}"
+  loop: "{{input_params}}"
+
+- name: append output parameters
+  xml: 
+    path: /tmp/tool_xml.xml
+    xpath: /tool/outputs
+    pretty_print: yes
+    set_children:
+      - data:
+          name: "{{item.name}}"
+          format: "{{item.format}}"    
+          _:
+            - discover_datasets:
+                pattern: "__designation_and_ext__"
+                directory: "output"
+                visible: "true"
+  loop: "{{output_params}}"
+
+- name: append help text
+  xml:
+    path: /tmp/tool_xml.xml
+    xpath: /tool/help
+    value: "{{help}}"
+
+- name: insert command string
+  blockinfile:
+    path: /tmp/tool_xml.xml    
+    insertafter: '\[CDATA\['
+    block: "{{ lookup('template','./command.j2')}}"
+    marker: ' '
+
+- include: tools.yml
+
