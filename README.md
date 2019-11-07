@@ -1,6 +1,7 @@
 # fiji-blur2d-ansible
 
-the Fiji Java plugin creates the yaml file under roles/fiji-plugins/vars/main.yml
+the Fiji Java plugin here https://github.com/tischi/fiji-galaxy-blur2d 
+creates the yaml file under roles/fiji-plugins/vars/main.yml
 
 once the above file is created, run
 
